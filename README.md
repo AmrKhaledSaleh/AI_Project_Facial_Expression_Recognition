@@ -4,7 +4,6 @@
 ####    pip install numpy
 ####    pip install opencv-python
 ####    pip install keras
-####    pip install tensorflow
 
 ## This project will detect your facial expressions throw your camera in real time
 ## and it will classify your facial expression into one out of seven expressions which are:
