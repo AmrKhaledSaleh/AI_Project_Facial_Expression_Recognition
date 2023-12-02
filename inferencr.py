@@ -31,8 +31,8 @@ window_name = 'VideoCapture'
 
 
 # Create a named window
-# cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-# cv2.resizeWindow(window_name, 800, 750)
+cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+cv2.resizeWindow(window_name, 800, 750)
 
 while True:
     # Read a frame from the camera
