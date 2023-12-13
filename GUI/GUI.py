@@ -17,6 +17,10 @@ class GUI:
         self.VideoFrame = tk.Frame(self.root)
         self.CameraFrame = tk.Frame(self.root)
 
+        # Home Button to get back to MainFrame
+        self.home = tk.Button(self.root, text="Home", font=('Arial', 18),command=self.Home)
+        self.home.place(x=10, y=10, height=40, width=80)
+
         # model Variable contain the model as string "ANN" or "CNN"
         self.model = ""
 
@@ -35,6 +39,13 @@ class GUI:
         self.model = "ANN"
         self.ModelFrame.pack_forget()
         print("Selected model: ANN")
+
+    def Home(self):
+        self.MainFrame.pack()
+        self.ModelFrame.pack_forget()
+        self.PhotoFrame.pack_forget()
+        self.VideoFrame.pack_forget()
+        self.CameraFrame.pack_forget()
 
     def Make_MainFrame(self):
         for i in range(4):
@@ -102,5 +113,6 @@ class GUI:
         # Write your code here bro
 
         self.CameraFrame.pack()
+
 
 GUI()
