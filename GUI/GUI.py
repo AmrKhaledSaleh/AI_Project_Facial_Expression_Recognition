@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 
 
 class GUI:
@@ -25,7 +26,7 @@ class GUI:
         self.model = ""
 
         # Call the main frame to start the app
-        self.Make_MainFrame()
+        self.Make_ModelFrame()
 
         # load the app
         self.root.mainloop()
@@ -33,16 +34,18 @@ class GUI:
     def set_model_cnn(self):
         self.model = "CNN"
         self.ModelFrame.pack_forget()
+        self.Make_MainFrame()
         print("Selected model: CNN")
 
     def set_model_ann(self):
         self.model = "ANN"
         self.ModelFrame.pack_forget()
+        self.Make_MainFrame()
         print("Selected model: ANN")
 
     def Home(self):
-        self.MainFrame.pack()
-        self.ModelFrame.pack_forget()
+        self.ModelFrame.pack()
+        self.MainFrame.pack_forget()
         self.PhotoFrame.pack_forget()
         self.VideoFrame.pack_forget()
         self.CameraFrame.pack_forget()
@@ -71,7 +74,6 @@ class GUI:
         self.MainFrame.pack()
 
     def Make_ModelFrame(self):
-
         for i in range(3):
             self.ModelFrame.grid_rowconfigure(i, weight=1)
         self.ModelFrame.grid_columnconfigure(0, weight=1)
@@ -87,18 +89,40 @@ class GUI:
 
         self.ModelFrame.pack()
 
+    def open_file_explorer(self):
+
+        file_path = filedialog.askopenfilename(title="Select Photo",
+                                               filetypes=[("Image Files", "*.jpg *.jpeg *.png")], )
+
+        # Update the photo path entry with the selected file path
+        self.photo_path_entry.configure(state="normal")
+        self.photo_path_entry.delete(0, tk.END)
+        self.photo_path_entry.insert(0, file_path)
+        self.photo_path_entry.configure(state="readonly")
+
     def Make_PhotoFrame(self):
         self.MainFrame.pack_forget()
-        self.Make_ModelFrame()
 
-        # hey , model variable has the selected model as a string
-        # Write your code here bro
+        for i in range(3):
+            self.PhotoFrame.grid_rowconfigure(i, weight=1)
+        self.PhotoFrame.grid_columnconfigure(0, weight=1)
+
+        # Button for browsing photo
+        self.browse_photo_button = tk.Button(self.PhotoFrame, text="Browse Photo", font=("Arial", 20),command=self.open_file_explorer)
+        self.browse_photo_button.grid(row=0, column=0, pady=20)
+
+        # Label to display selected photo path
+        self.photo_path_label = tk.Label(self.PhotoFrame, text="Selected Photo Path:", font=("Arial", 16))
+        self.photo_path_label.grid(row=1, column=0, pady=10)
+
+        # Placeholder for displaying the selected photo path
+        self.photo_path_entry = tk.Entry(self.PhotoFrame, font=("Arial", 16), state="normal")
+        self.photo_path_entry.grid(row=2, column=0, pady=10)
 
         self.PhotoFrame.pack()
 
     def Make_VideoFrame(self):
         self.MainFrame.pack_forget()
-        self.Make_ModelFrame()
 
         # hey , model variable has the selected model as a string
         # Write your code here bro
@@ -107,7 +131,6 @@ class GUI:
 
     def Make_CameraFrame(self):
         self.MainFrame.pack_forget()
-        self.Make_ModelFrame()
 
         # hey , model variable has the selected model as a string
         # Write your code here bro
