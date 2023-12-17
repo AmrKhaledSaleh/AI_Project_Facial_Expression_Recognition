@@ -71,11 +71,8 @@ class FER:
             # Expand dimensions to make it compatible with model input shape (add batch dimension)
             img = np.expand_dims(np.expand_dims(cv2.resize(face_roi, (48, 48)), -1), 0)
 
-            # Make a prediction using the model
-            expression_prediction = self.expression_detector.predict(img)
-
             # Get the corresponding emotion label from the dictionary
-            emotion_label = self.label_dict[np.argmax(expression_prediction)]
+            emotion_label = self.image_predict(img=img)
 
             # Draw a rectangle around the detected face
             cv2.rectangle(frame, (x, y), (x + w, y + h), (250, 13, 12), thickness=3)
@@ -93,6 +90,20 @@ class FER:
 
         # Display the frame in a window
         cv2.imshow(self.window_name, frame)
+
+    def image_predict(self, img, img_path='0'):
+        if img_path != '0':
+            img = cv2.imread(img_path)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = np.expand_dims(np.expand_dims(cv2.resize(img, (48, 48)), -1), 0)
+
+        # Make a prediction using the model
+        expression_prediction = self.expression_detector.predict(img)
+
+        # Get the corresponding emotion label from the dictionary
+        label = self.label_dict[np.argmax(expression_prediction)]
+
+        return label
 
     def run(self):
         while True:
