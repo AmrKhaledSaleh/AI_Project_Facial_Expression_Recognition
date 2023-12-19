@@ -57,7 +57,7 @@ class FER:
 
         return ann_model
 
-    def process_frame(self, frame):
+    def process_frame(self, frame, t):
         # Convert the frame to grayscale for face detection
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -91,12 +91,14 @@ class FER:
             cv2.putText(img, txt, position, font, font_scale, outline_color, 5)
             cv2.putText(img, txt, position, font, font_scale, txt_color, 2)
 
+        if t:
+            return frame
         # Display the frame in a window
         cv2.imshow(self.window_name, frame)
 
     def photo_use(self, img_path):
         img = cv2.imread(img_path)
-        self.process_frame(img)
+        self.process_frame(img, True)
 
 
         # Make a prediction using the model
@@ -111,7 +113,7 @@ class FER:
                 print("Error: Failed to read frame.")
                 break
 
-            self.process_frame(frame)
+            self.process_frame(frame, False)
 
             # Break the loop if the 'q' key is pressed
             key = cv2.waitKey(1)
