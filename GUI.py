@@ -138,17 +138,17 @@ class GUI:
         self.VideoFrame.pack()
 
     def Make_CameraFrame(self):
-        self.MainFrame.pack_forget()
+        # self.MainFrame.pack_forget()
 
         # Set background color for CameraFrame
-        self.CameraFrame.configure(bg="#34495E")
+        # self.CameraFrame.configure(bg="#34495E")
 
         # hey, model variable has the selected model as a string
         # Write your code here bro
         fer = FER(model_type=self.model)
         fer.run()
 
-        self.CameraFrame.pack()
+        # self.CameraFrame.pack()
 
 
 GUI()
