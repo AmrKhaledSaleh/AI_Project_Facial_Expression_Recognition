@@ -57,6 +57,10 @@ class GUI:
     def Make_MainFrame(self):
         self.MainFrame.configure(bg="#34495E")
 
+        for i in range(4):
+            self.MainFrame.grid_rowconfigure(i, weight=1)  # Allow rows to expand vertically
+        self.MainFrame.grid_columnconfigure(0, weight=1)  # Allow column to expand horizontally
+
         # the label on the top
         self.Mainlabel = tk.Label(self.MainFrame, text="Choose Input Type", font=("Arial", 36), bg="#34495E", fg="#FFFFFF")
 
@@ -70,6 +74,7 @@ class GUI:
                                      bg="#3498DB", fg="#FFFFFF")
         self.CameraButton = tk.Button(self.MainFrame, text="Camera", font=("Arial", 24), command=self.Make_CameraFrame,
                                       bg="#3498DB", fg="#FFFFFF")
+
 
         self.Mainlabel.pack(pady=80)
         self.PhotoButton.pack(pady=30)
@@ -94,7 +99,7 @@ class GUI:
 
         self.ModelFrame.pack()
 
-    def open_file_explorer(self):
+    def open_photo_explorer(self):
         file_path = filedialog.askopenfilename(title="Select Photo",
                                                filetypes=[("Image Files", "*.jpg *.jpeg *.png")])
 
@@ -104,6 +109,15 @@ class GUI:
         self.photo_path_entry.insert(0, file_path)
         self.photo_path_entry.configure(state="readonly")
 
+    def open_video_explorer(self):
+        file_path = filedialog.askopenfilename(title="Select Video",
+                                               filetypes=[("Video Files", "*.mp4 *.avi")])
+
+        self.video_path_entry.configure(state="normal")
+        self.video_path_entry.delete(0, tk.END)
+        self.video_path_entry.insert(0, file_path)
+        self.video_path_entry.configure(state="readonly")
+
     def Make_PhotoFrame(self):
         self.MainFrame.pack_forget()
 
@@ -112,7 +126,7 @@ class GUI:
 
         # Button for browsing photo
         self.browse_photo_button = tk.Button(self.PhotoFrame, text="Browse Photo", font=("Arial", 20),
-                                             command=self.open_file_explorer, bg="#3498DB", fg="#FFFFFF")
+                                             command=self.open_photo_explorer, bg="#3498DB", fg="#FFFFFF")
         self.browse_photo_button.pack(pady=20)
 
         # Label to display selected photo path
@@ -129,11 +143,22 @@ class GUI:
     def Make_VideoFrame(self):
         self.MainFrame.pack_forget()
 
-        # Set background color for VideoFrame
+        # Set background color for PhotoFrame
         self.VideoFrame.configure(bg="#34495E")
 
-        # hey, model variable has the selected model as a string
-        # Write your code here bro
+        # Button for browsing photo
+        self.browse_video_button = tk.Button(self.VideoFrame, text="Browse Video", font=("Arial", 20),
+                                             command=self.open_video_explorer, bg="#3498DB", fg="#FFFFFF")
+        self.browse_video_button.pack(pady=20)
+
+        # Label to display selected photo path
+        self.video_path_label = tk.Label(self.VideoFrame, text="Selected Video Path:", font=("Arial", 16),
+                                         bg="#34495E", fg="#FFFFFF")
+        self.video_path_label.pack(pady=10)
+
+        # Placeholder for displaying the selected photo path
+        self.video_path_entry = tk.Entry(self.VideoFrame, font=("Arial", 16), state="normal")
+        self.video_path_entry.pack(pady=10)
 
         self.VideoFrame.pack()
 
