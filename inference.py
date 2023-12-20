@@ -16,8 +16,6 @@ class FER:
         else:
             raise ValueError("Invalid model type. Use 'cnn' or 'ann'.")
 
-
-
     @staticmethod
     def load_cnn_model():
         # Loading CNN Trained Model
@@ -85,21 +83,36 @@ class FER:
     def image_use(self, img_path):
         img = cv2.imread(img_path)
         edited_img = self.process_frame(img)
-        cv2.imwrite('output_image.jpg', edited_img)
-        return edited_img
 
-        # Make a prediction using the model
+        window_name = 'Labeled Image'
 
-    def ved(self, video_source=None):
+        # Create a named window
+        cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(window_name, 850, 600)
+
+        # Display the image in a window
+        cv2.imshow(window_name, edited_img)
+
+        # Wait for a key press and close the window
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+    def ved(self, t, video_source=None):
+        # Define the window name
+        window_name = 'Test throw Camera'
 
         # Create a VideoCapture object
-        cap = cv2.VideoCapture(video_source) if video_source else cv2.VideoCapture(0)
-        if not cap.isOpened():
-            print("Error: Could not open video source.")
-            exit()
-
-        # Define the window name
-        window_name = 'VideoCapture'
+        if t:
+            cap = cv2.VideoCapture(video_source)
+            window_name = 'Test throw video'
+            if not cap.isOpened():
+                print("Error: Could not open video source.")
+                exit()
+        else:
+            cap = cv2.VideoCapture(0)
+            if not cap.isOpened():
+                print("Error: Could not open the camera.")
+                exit()
 
         # Create a named window
         cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
