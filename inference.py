@@ -4,18 +4,9 @@ from keras.models import model_from_json
 
 
 class FER:
-    def __init__(self, video_source=None, model_type='cnn'):
+    def __init__(self, model_type='cnn'):
         self.face_detector = cv2.CascadeClassifier('models/haarcascade_frontalface_default.xml')
         self.label_dict = {0: 'anger', 1: 'disgust', 2: 'fear', 3: 'happiness', 4: 'neutral', 5: 'sad', 6: 'surprise'}
-
-        # Create a VideoCapture object
-        self.cap = cv2.VideoCapture(video_source) if video_source else cv2.VideoCapture(0)
-        if not self.cap.isOpened():
-            print("Error: Could not open video source.")
-            exit()
-
-        # Define the window name
-        self.window_name = 'VideoCapture'
 
         # Load the specified model
         if model_type == 'cnn':
@@ -25,9 +16,7 @@ class FER:
         else:
             raise ValueError("Invalid model type. Use 'cnn' or 'ann'.")
 
-        # Create a named window
-        cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
-        cv2.resizeWindow(self.window_name, 800, 750)
+
 
     @staticmethod
     def load_cnn_model():
@@ -57,7 +46,7 @@ class FER:
 
         return ann_model
 
-    def process_frame(self, frame, t):
+    def process_frame(self, frame):
         # Convert the frame to grayscale for face detection
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -91,29 +80,41 @@ class FER:
             cv2.putText(img, txt, position, font, font_scale, outline_color, 5)
             cv2.putText(img, txt, position, font, font_scale, txt_color, 2)
 
-        if t:
-            return frame
-        # Display the frame in a window
-        cv2.imshow(self.window_name, frame)
+        return frame
 
-    def photo_use(self, img_path):
+    def image_use(self, img_path):
         img = cv2.imread(img_path)
-        self.process_frame(img, True)
-
+        edited_img = self.process_frame(img)
+        cv2.imwrite('output_image.jpg', edited_img)
+        return edited_img
 
         # Make a prediction using the model
 
+    def ved(self, video_source=None):
 
-    def run(self):
+        # Create a VideoCapture object
+        cap = cv2.VideoCapture(video_source) if video_source else cv2.VideoCapture(0)
+        if not cap.isOpened():
+            print("Error: Could not open video source.")
+            exit()
+
+        # Define the window name
+        window_name = 'VideoCapture'
+
+        # Create a named window
+        cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(window_name, 800, 750)
+
         while True:
             # Read a frame from the camera
-            ret, frame = self.cap.read()
+            ret, frame = cap.read()
 
             if not ret:
                 print("Error: Failed to read frame.")
                 break
 
-            self.process_frame(frame, False)
+            frame = self.process_frame(frame)
+            cv2.imshow(window_name, frame)
 
             # Break the loop if the 'q' key is pressed
             key = cv2.waitKey(1)
@@ -121,11 +122,5 @@ class FER:
                 break
 
         # Release the VideoCapture object and close the window
-        self.cap.release()
+        cap.release()
         cv2.destroyAllWindows()
-
-# Example usage:
-# detector_cnn = FER(model_type='cnn')  # For CNN model
-# detector_ann = FaceExpressionDetector(model_type='ann')  # For ANN model
-# detector_cnn.run()
-# detector_ann.run()

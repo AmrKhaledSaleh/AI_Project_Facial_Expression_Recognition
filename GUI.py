@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog
 from inference import FER
+from tkinter import *
+
+
 
 
 class GUI:
@@ -108,6 +111,13 @@ class GUI:
         self.photo_path_entry.delete(0, tk.END)
         self.photo_path_entry.insert(0, file_path)
         self.photo_path_entry.configure(state="readonly")
+        
+        fer = FER(model_type=self.model)
+        image = fer.image_use(file_path)
+
+
+
+
 
     def open_video_explorer(self):
         file_path = filedialog.askopenfilename(title="Select Video",
@@ -117,6 +127,9 @@ class GUI:
         self.video_path_entry.delete(0, tk.END)
         self.video_path_entry.insert(0, file_path)
         self.video_path_entry.configure(state="readonly")
+
+        fer = FER(model_type=self.model)
+        fer.ved(video_source=file_path)
 
     def Make_PhotoFrame(self):
         self.MainFrame.pack_forget()
@@ -171,7 +184,7 @@ class GUI:
         # hey, model variable has the selected model as a string
         # Write your code here bro
         fer = FER(model_type=self.model)
-        fer.run()
+        fer.ved()
 
         # self.CameraFrame.pack()
 
