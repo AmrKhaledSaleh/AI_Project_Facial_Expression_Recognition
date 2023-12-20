@@ -72,7 +72,7 @@ class FER:
             # Display the predicted expression
             img = frame
             txt = f"Expression: {emotion_label}"
-            position = (x, y - 10)
+            position = (x, y + 20)
             font = cv2.FONT_HERSHEY_SIMPLEX
             font_scale = 0.5
             txt_color = (0, 0, 0)
