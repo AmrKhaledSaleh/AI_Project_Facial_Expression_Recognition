@@ -1,3 +1,6 @@
+[![Ceasefire Now](https://badge.techforpalestine.org/default)](https://techforpalestine.org/learn-more)
+
+
 # Real Time Facial Expression Recognition
 - Real Time Facial Expression Recognition is a project that utilizes deep learning & computer vision to analyze facial expressions in real-time. 
 - It detects and classifies facial expressions such as happiness, sadness, anger, etc.
